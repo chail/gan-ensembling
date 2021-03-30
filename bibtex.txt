@@ -1,0 +1,6 @@
+@inproceedings{chai2021ensembling,
+	title={Ensembling with Deep Generative Views.},
+	author={Chai, Lucy and Zhu, Jun-Yan and Shechtman, Eli and Isola, Phillip and Zhang, Richard},
+	booktitle={CVPR},
+	year={2021}
+}

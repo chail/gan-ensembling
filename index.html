@@ -1,0 +1,283 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Latent Composition</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script type="text/javascript" src="jquery.mlens-1.0.min.js"></script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <style>
+        body {
+            font-family: 'Open-Sans', sans-serif;
+            font-weight: 300;
+            background-color: #fff;
+        }
+
+        .content {
+            width: 1000px;
+            padding: 25px 50px;
+            margin: 25px auto;
+            background-color: white;
+            box-shadow: 0px 0px 10px #999;
+            border-radius: 15px;
+        }
+
+        .contentblock {
+            width: 950px;
+            margin: 0 auto;
+            padding: 0;
+            border-spacing: 25px 0;
+        }
+
+        .contentblock td {
+            background-color: #fff;
+            padding: 25px 50px;
+            vertical-align: top;
+            box-shadow: 0px 0px 10px #999;
+            border-radius: 15px;
+        }
+
+        a,
+        a:visited {
+            color: #224b8d;
+            font-weight: 300;
+        }
+
+        #authors {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #conference {
+            text-align: center;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        #authors a {
+            margin: 0 0px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 35px;
+            font-weight: 300;
+        }
+
+        h2 {
+            font-size: 30px;
+            font-weight: 300;
+        }
+
+        code {
+            display: block;
+            padding: 10px;
+            margin: 10px 10px;
+        }
+
+        p {
+            line-height: 25px;
+            text-align: justify;
+        }
+
+        p code {
+            display: inline;
+            padding: 0;
+            margin: 0;
+        }
+
+        #teasers {
+            margin: 0 auto;
+        }
+
+        #teasers td {
+            margin: 0 auto;
+            text-align: center;
+            padding: 5px;
+        }
+
+        #teasers img {
+            width: 250px;
+        }
+
+        #results img {
+            width: 133px;
+        }
+
+        #seeintodark {
+            margin: 0 auto;
+        }
+
+        #sift {
+            margin: 0 auto;
+        }
+
+        #sift img {
+            width: 250px;
+        }
+
+        .downloadpaper {
+            padding-left: 20px;
+            float: right;
+            text-align: center;
+        }
+
+        .downloadpaper a {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #demoframe {
+            border: 0;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 340px;
+        }
+
+        #feedbackform {
+            border: 1px solid #ccc;
+            margin: 0 auto;
+            border-radius: 15px;
+        }
+
+        #eyeglass {
+            height: 530px;
+        }
+
+        #eyeglass #wrapper {
+            position: relative;
+            height: auto;
+            margin: 0 auto;
+            float: left;
+            width: 800px;
+        }
+
+        #mitnews {
+            font-weight: normal;
+            margin-top: 20px;
+            font-size: 14px;
+            width: 220px;
+        }
+
+        #mitnews a {
+            font-weight: normal;
+        }
+
+        .teaser-img {
+            width: 40%;
+						display: block;
+						margin-left: auto;
+						margin-right: auto;
+        }
+        .teaser-gif {
+						display: block;
+						margin-left: auto;
+						margin-right: auto;
+        }
+        .summary-img {
+            width: 100%;
+						display: block;
+						margin-left: auto;
+						margin-right: auto;
+        }
+
+        .iframe {
+            width: 100%;
+            height: 125%
+        }
+
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center
+      }
+      .image {
+        flex-basis: 40%
+      }
+      .text {
+        font-size: 20px;
+        padding-left: 20px;
+      }
+
+    </style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+		<!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-98008272-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-98008272-2');
+    </script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+    </script>
+		-->
+
+</head>
+
+<body>
+
+    <div class="content">
+			<h1>Ensembling with Deep Generative Views</h1>
+        <p id="authors">
+				<a href="http://people.csail.mit.edu/lrchai/">Lucy Chai</a><sup>1,2</sup>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="https://www.cs.cmu.edu/~junyanz/">Jun-Yan Zhu</a><sup>2,3</sup>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="https://research.adobe.com/person/eli-shechtman/">Eli Shechtman</a><sup>2</sup>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="http://web.mit.edu/phillipi/">Phillip Isola</a><sup>1</sup>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="https://richzhang.github.io/">Richard Zhang</a><sup>2</sup><br>
+            <!-- <strong>MIT Computer Science and Artificial Intelligence Laboratory</strong> -->
+						<sup>1</sup>MIT&nbsp;&nbsp;<sup>2</sup>Adobe Research&nbsp;&nbsp;<sup>3</sup>CMU
+						<br><i>CVPR 2021</i>
+        </p>
+				<font size="+2">
+					<p style="text-align: center;">
+						<!--
+						<a href="" target="_blank">[Paper - Coming Soon]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+						-->
+						<a href="https://github.com/chail/gan-ensembling" target="_blank">[paper & code coming soon]</a> 
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="bibtex.txt" target="_blank">[bibtex]</a>
+						<!--
+						<a href="https://colab.research.google.com/drive/1p-L2dPMaqMyr56TYoYmBJhoyIyBJ7lzH?usp=sharing" target="_blank">[Colab]</a>
+						<a href="TODO: youtube link?" target="_blank">[Video]</a>
+						-->
+					</p>
+					</font>
+        <p>
+            <img class='teaser-img' src='img/teaser.jpeg'></img>
+        </p>
+
+				<p><strong>Abstract: </strong>
+				Recent generative models can synthesize ''views'' of artificial images that mimic real-world variations, such as changes in color or pose, simply by learning from unlabeled image collections. Here, we investigate whether such views can be applied to real images to benefit downstream analysis tasks, such as image classification. Using a pretrained generator, we first find the latent code corresponding to a given real input image. Applying perturbations to the code creates natural variations of the image, which can then be ensembled together at test-time. We use StyleGAN2 as the source of generative augmentations and investigate this setup on classification tasks on facial attributes, cat faces, and cars. Critically, we find that several design decisions are required towards making this process work; the perturbation procedure, weighting between the augmentations and original image, and training the classifier on synthesized images can all impact the result. Currently, we find that while test-time ensembling with GAN-based augmentations can offer some small improvements, the remaining bottlenecks are the efficiency and accuracy of the GAN reconstructions, coupled with classifier sensitivities to artifacts in GAN-generated images.
+				</p>
+
+        <br clear="all">
+    </div>
+    <div class="content" id="references">
+
+        <h2>Reference</h2>
+
+				<p>L Chai, JY Zhu, E Shechtman, P Isola, R Zhang. Ensembling with Deep Generative Views. <br>CVPR, 2021.</p>
+
+        <code>
+			@inproceedings{chai2021ensembling,<br>
+				&nbsp;&nbsp;title={Ensembling with Deep Generative Views.},<br>
+				&nbsp;&nbsp;author={Chai, Lucy and Zhu, Jun-Yan and Shechtman, Eli and Isola, Phillip and Zhang, Richard},<br>
+				&nbsp;&nbsp;booktitle={CVPR},<br>
+				&nbsp;&nbsp;year={2021}<br>
+			 }
+				</code>
+    </div>      
+    <div class="content" id="acknowledgements">
+          <p><strong>Acknowledgements</strong>:
+					We would like to thank Jonas Wulff, David Bau, Minyoung Huh, Matt Fisher, Aaron Hertzmann, Connelly Barnes, and Evan Shelhamer for helpful discussions. LC is supported by the National Science Foundation Graduate Research Fellowship under Grant No. 1745302. This work was started while LC was an intern at Adobe Research. Recycling a familiar <a href="https://chail.github.io/latent-composition/">template</a>.
+    </div>
+</body>
+
+</html>
