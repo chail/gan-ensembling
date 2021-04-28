@@ -197,8 +197,8 @@
         flex-basis: 40%
       }
       .text {
-        font-size: 20px;
         padding-left: 20px;
+        padding-right: 20px;
       }
 
     </style>
@@ -237,12 +237,10 @@
         </p>
 				<font size="+2">
 					<p style="text-align: center;">
-						<!--
-						<a href="" target="_blank">[Paper - Coming Soon]</a> &nbsp;&nbsp;&nbsp;&nbsp;
-						-->
-						<a href="https://github.com/chail/gan-ensembling" target="_blank">[paper & code coming soon]</a> 
+						<a href="" target="_blank">[Paper]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="https://github.com/chail/gan-ensembling" target="_blank">[Code]</a> 
 						&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="bibtex.txt" target="_blank">[bibtex]</a>
+						<a href="bibtex.txt" target="_blank">[Bibtex]</a>
 						<!--
 						<a href="https://colab.research.google.com/drive/1p-L2dPMaqMyr56TYoYmBJhoyIyBJ7lzH?usp=sharing" target="_blank">[Colab]</a>
 						<a href="TODO: youtube link?" target="_blank">[Video]</a>
@@ -259,6 +257,60 @@
 
         <br clear="all">
     </div>
+    <div class="content" id="samples">
+
+        <h2 style="text-align:center;">Summary</h2>
+				
+				<div class="container">
+					<div class="image">
+						<img style="width:400px" src='img/graph_face_gan_aug_types.jpg'></img>
+					</div>
+					<div class="text">
+						<p> We investigate different methods of perturbing the optimized latent code of a given image, using isotropic Gaussian noise, unsupervised PCA axes in the latent space, and a "style-mixing" operation at both coarse and fine layers. On the CelebA-HQ domain, we find that style-mixing on fine layers generalizes best to the test partition. Below, we show qualitative examples of the style-mixing operation on coarse and fine layers on several domains.</p>
+					</div>
+				</div>
+				<br>
+        <img class='summary-img' src='img/qualitative_website.001.jpeg'></img>
+				<br>
+			
+				<hr>
+				<div class="container">
+					<div class="text">
+						<p>We find that an intermediate weighting between the original image and the GAN-generated variations improves results, using an ensemble weight parameter &alpha;. Here, we show this effect on the CelebA-HQ smiling attribute. We select this parameter using the validation split, and apply it to the test split.</p>
+					</div>
+					<div class="image">
+						<img style="width:400px" src='img/sm_ensemble_alpha_Smiling_v2.jpg'></img>
+					</div>
+				</div>
+
+        <hr>
+				<div class="container">
+					<div class="image">
+						<img style="width:400px" src='img/graph_face_testaug_diffs.jpg'></img>
+					</div>
+					<div class="text">
+						<p> Averaged over 40 CelebA-HQ binary attributes, ensembling the GAN-generated images as test-time augmentation performs similarly to ensembling with small spatial jitter. However, the benefits are greater when both methods are combined. We plot the different between the test-time ensemble accuracy and standard single-image test accuracy.
+					</div>
+				</div>
+
+        <br>
+        <hr>
+        <p style="text-align: center;">We also experiment on a three-way classification task on cars, and a 12-way classification task on cat faces. In these domains, the style-mixing operation is also the most beneficial, which corresponds to greater visual changes compared to isotropic and PCA perturbations.</p>
+				<div class="container">
+					<div class="image">
+						<img style="width:400px; margin-right:20px" src='img/graph_cars_v2.jpg'></img>
+					</div>
+					<div class="image">
+						<img style="width:400px; margin-left:20px" src='img/graph_cats_v2.jpg'></img>
+					</div>
+				</div>
+
+				<br>
+				<hr>
+				<p style="text-align: center;"> There are some important limitations and challenges of the current approach. (1) Inverting images into GANs: the inversion must be accurate enough such that classification on the GAN-generated reconstruction is similar to that of the original image. Getting a good reconstruction can be computationally expensive, and some dataset images are harder to reconstruct, which limits us to relatively simple domains. (2) Classifier sensitivities: the classifier can be sensitive to imperfect GAN reconstructions, so classification accuracy tends to drop on the GAN reconstructions alone. We find that it helps to upweight the predictions on the original image relative to the GAN-generated variants in the ensemble, but ideally, the classifier should behave similarly on real images and GAN-generated reconstructions.
+				</p>
+
+    </div>      
     <div class="content" id="references">
 
         <h2>Reference</h2>
