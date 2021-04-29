@@ -19,11 +19,11 @@ Ensembling with Deep Generative Views. \
 4. [Notebooks](#notebooks) - jupyter notebooks for visualization<br>
 5. [Pipeline](#pipeline) - details on full pipeline<br>
 
+## Colab
+
 <a name="colab"/>
 
-[Colab Notebook](https://colab.research.google.com/drive/1-qZBjn07KlWv27kKQGaKOXMBgP-Fb0Ws?usp=sharing) demonstrates the basic latent code perturbation and classification procedure on the aligned cat dataset. 
-
-## Setup
+This [Colab Notebook](https://colab.research.google.com/drive/1-qZBjn07KlWv27kKQGaKOXMBgP-Fb0Ws?usp=sharing) demonstrates the basic latent code perturbation and classification procedure on the aligned cat dataset. 
 
 <a name="setup"/>
 
