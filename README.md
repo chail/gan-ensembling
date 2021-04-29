@@ -13,10 +13,17 @@ Ensembling with Deep Generative Views. \
 - NVIDIA GPU + CUDA CuDNN
 
 **Table of Contents:**<br>
-1. [Setup](#setup) - download required resources<br>
-2. [Quickstart](#quickstart) - short demonstration code snippet<br>
-3. [Notebooks](#notebooks) - jupyter notebooks for visualization<br>
-4. [Pipeline](#pipeline) - details on full pipeline<br>
+1. [Colab](#colab) - run a limited demo version without local installation
+2. [Setup](#setup) - download required resources<br>
+3. [Quickstart](#quickstart) - short demonstration code snippet<br>
+4. [Notebooks](#notebooks) - jupyter notebooks for visualization<br>
+5. [Pipeline](#pipeline) - details on full pipeline<br>
+
+<a name="colab"/>
+
+[Colab Notebook](https://colab.research.google.com/drive/1-qZBjn07KlWv27kKQGaKOXMBgP-Fb0Ws?usp=sharing) demonstrates the basic latent code perturbation and classification procedure on the aligned cat dataset. 
+
+## Setup
 
 <a name="setup"/>
 
