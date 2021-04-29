@@ -1,0 +1,33 @@
+name: gan-ensembling 
+channels:
+  - pytorch
+  - conda-forge
+dependencies:
+  - python
+  - cudatoolkit
+  - pytorch
+  - cudnn
+  - torchvision
+  - torchaudio
+  - numpy
+  - scipy
+  - matplotlib
+  - pandas
+  - jupyter
+  - pip
+  - tensorboard
+  - tqdm
+  - ipython
+  - pillow
+  - opencv
+  - scikit-learn 
+  - pandas
+  - seaborn
+  - pip:
+     - oyaml
+     - lpips
+     - ninja
+     - ipywidgets
+     - mat4py
+
+

@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+dataset/
+networks/stats/
+results/
+resources/*
+!resources/download_resources.sh
+models
+notebooks/*
+!notebooks/*.ipynb
+!notebooks/ipynb_drop_output.py
+!notebooks/setup_notebooks.sh
+# ignore things for debugging
+notebooks/check_replication.ipynb
+notebooks/scratch.ipynb
+notebooks/figures_v2_graphs_clean.ipynb
+notebooks/gif.ipynb
+notebooks/rename_and_clean.ipynb
+debug.sh
+zip_commands.sh
+zips/
+
+*.npz
+*.mp4
+*.pdf
+*.png
+*.csv
+*.zip
+
+
