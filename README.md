@@ -23,7 +23,7 @@ Ensembling with Deep Generative Views. \
 
 <a name="colab"/>
 
-This [Colab Notebook](https://colab.research.google.com/drive/1-qZBjn07KlWv27kKQGaKOXMBgP-Fb0Ws?usp=sharing) demonstrates the basic latent code perturbation and classification procedure on the aligned cat dataset. 
+This [Colab Notebook](https://colab.research.google.com/drive/1-qZBjn07KlWv27kKQGaKOXMBgP-Fb0Ws?usp=sharing) demonstrates the basic latent code perturbation and classification procedure in a simplified setting on the aligned cat dataset. 
 
 <a name="setup"/>
 
