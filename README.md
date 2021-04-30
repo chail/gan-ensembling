@@ -162,6 +162,7 @@ We thank the authors of these repositories:
 - [StyleGAN 2 Pytorch](https://github.com/rosinality/stylegan2-pytorch) for pytorch implementation of StyleGAN 2 and pretrained models
 - [Stylegan 2 ADA Pytorch](https://github.com/NVlabs/stylegan2-ada-pytorch) for the class-conditional StyleGAN 2 CIFAR10 generator
 - [StyleGAN In-domain inversion](https://github.com/genforce/idinvert_pytorch) for the in-domain stylegan generator and encoder
+- [Pytorch CIFAR](https://github.com/kuangliu/pytorch-cifar) for CIFAR10 classification ([license](https://github.com/kuangliu/pytorch-cifar/blob/master/LICENSE))
 - [Latent Composition](https://github.com/chail/latent-composition) for some code and remaining encoders
 - Cat dataset images are from the [Oxford-IIIT Pet Dataset](https://www.robots.ox.ac.uk/~vgg/data/pets/), aligned using the [Frederic](https://github.com/zylamarek/frederic) landmark detector.
 
