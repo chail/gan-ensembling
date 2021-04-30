@@ -1,7 +1,8 @@
 # GAN Ensembling
 [Project Page](https://chail.github.io/gan-ensembling/) | [Paper](./)  | [Bibtex](https://chail.github.io/gan-ensembling/bibtex.txt)
 
-<img src='img/teaser.jpeg' width=300> 
+<img src='img/teaser.gif' width=300> 
+
 
 Ensembling with Deep Generative Views. \
 [Lucy Chai](http://people.csail.mit.edu/lrchai/), [Jun-Yan Zhu](https://www.cs.cmu.edu/~junyanz/), [Eli Shechtman](https://research.adobe.com/person/eli-shechtman/), [Phillip Isola](http://web.mit.edu/phillipi/), [Richard Zhang](https://richzhang.github.io/) \
@@ -18,6 +19,10 @@ Ensembling with Deep Generative Views. \
 3. [Quickstart](#quickstart) - short demonstration code snippet<br>
 4. [Notebooks](#notebooks) - jupyter notebooks for visualization<br>
 5. [Pipeline](#pipeline) - details on full pipeline<br>
+
+<img src='img/teaser.jpeg' width=300> 
+
+
 
 ## Colab
 
