@@ -2,11 +2,15 @@
 Customized version of pytorch resnet, alexnets.
 '''
 
-import numpy, torch, math, os
+import numpy
+import torch
+import math
+import os
 from torch import nn
 from collections import OrderedDict
 from torchvision.models import resnet
 from torchvision.models.alexnet import model_urls as alexnet_model_urls
+
 
 class CustomResNet(nn.Module):
     '''
@@ -20,8 +24,9 @@ class CustomResNet(nn.Module):
      * halfsize=True halves striding on the first pooling to
        set the default size to 112x112 instead of 224x224.
     '''
+
     def __init__(self, size=None, block=None, layers=None, num_classes=1000,
-            extra_output=None, modify_sequence=None, halfsize=False,
+                 extra_output=None, modify_sequence=None, halfsize=False,
                  channels_in=3):
         standard_sizes = {
             18: (resnet.BasicBlock, [2, 2, 2, 2]),
@@ -34,20 +39,20 @@ class CustomResNet(nn.Module):
         if size in standard_sizes:
             block, layers = standard_sizes[size]
         if modify_sequence is None:
-            modify_sequence = lambda x: x
+            def modify_sequence(x): return x
         self.inplanes = 64
         norm_layer = nn.BatchNorm2d
-        self._norm_layer = norm_layer # for recent resnet
+        self._norm_layer = norm_layer  # for recent resnet
         self.dilation = 1
         self.groups = 1
         self.base_width = 64
         sequence = modify_sequence([
             ('conv1', nn.Conv2d(channels_in, 64, kernel_size=7, stride=2,
-                padding=3, bias=False)),
+                                padding=3, bias=False)),
             ('bn1', norm_layer(64)),
             ('relu', nn.ReLU(inplace=True)),
             ('maxpool', nn.MaxPool2d(3, stride=1 if halfsize else 2,
-                padding=1)),
+                                     padding=1)),
             ('layer1', self._make_layer(block, 64, layers[0])),
             ('layer2', self._make_layer(block, 128, layers[1], stride=2)),
             ('layer3', self._make_layer(block, 256, layers[2], stride=2)),
@@ -73,6 +78,7 @@ class CustomResNet(nn.Module):
             return (x,) + tuple(extra)
         return x
 
+
 class CustomAlexNet(nn.Module):
     '''
     Customizable AlexNet, compatible with pytorch's alexnet, but:
@@ -83,29 +89,30 @@ class CustomAlexNet(nn.Module):
      * halfsize=True halves striding on the first convolution to
        allow 119x119 images to be processed rather than 227x227 only.
     '''
+
     def __init__(self, channels=None, num_classes=1000,
-            extra_output=None, modify_sequence=None, halfsize=False):
+                 extra_output=None, modify_sequence=None, halfsize=False):
         if channels is None:
             channels = [3, 64, 192, 384, 256, 256, 4096, 4096]
         if modify_sequence is None:
-            modify_sequence = lambda x: x
+            def modify_sequence(x): return x
         sequence = modify_sequence([
             ('conv1', nn.Conv2d(channels[0], channels[1],
-                kernel_size=11, stride=2 if halfsize else 4, padding=2)),
+                                kernel_size=11, stride=2 if halfsize else 4, padding=2)),
             ('relu1', nn.ReLU(inplace=True)),
             ('pool1', nn.MaxPool2d(kernel_size=3, stride=1 if halfsize else 2)),
             ('conv2', nn.Conv2d(channels[1], channels[2],
-                kernel_size=5, padding=2)),
+                                kernel_size=5, padding=2)),
             ('relu2', nn.ReLU(inplace=True)),
             ('pool2', nn.MaxPool2d(kernel_size=3, stride=2)),
             ('conv3', nn.Conv2d(channels[2], channels[3],
-                kernel_size=3, padding=1)),
+                                kernel_size=3, padding=1)),
             ('relu3', nn.ReLU(inplace=True)),
             ('conv4', nn.Conv2d(channels[3], channels[4],
-                kernel_size=3, padding=1)),
+                                kernel_size=3, padding=1)),
             ('relu4', nn.ReLU(inplace=True)),
             ('conv5', nn.Conv2d(channels[4], channels[5],
-                kernel_size=3, padding=1)),
+                                kernel_size=3, padding=1)),
             ('relu5', nn.ReLU(inplace=True)),
             ('pool5', nn.MaxPool2d(kernel_size=3, stride=2)),
             ('flatten', Vectorize()),
@@ -156,19 +163,24 @@ class CustomAlexNet(nn.Module):
             custom_state_dict[k] = v
         super(CustomAlexNet, self).load_state_dict(custom_state_dict, **kwargs)
 
+
 class Vectorize(nn.Module):
     def __init__(self):
         super(Vectorize, self).__init__()
+
     def forward(self, x):
         x = x.view(x.size(0), int(numpy.prod(x.size()[1:])))
         return x
 
+
 class GlobalAveragePool2d(nn.Module):
     def __init__(self):
         super(GlobalAveragePool2d, self).__init__()
+
     def forward(self, x):
         x = torch.mean(x.view(x.size(0), x.size(1), -1), dim=2)
         return x
+
 
 class EncoderToZ(nn.Module):
     def __init__(self):
@@ -177,6 +189,7 @@ class EncoderToZ(nn.Module):
 
     def forward(self, x):
         return x.unsqueeze(-1).unsqueeze(-1)
+
 
 class EncoderToWplus(nn.Module):
     def __init__(self, wdim=512):
@@ -187,9 +200,11 @@ class EncoderToWplus(nn.Module):
         n, c = x.shape
         return x.view(n, c // self.wdim, self.wdim)
 
+
 def modify_layers(layers):
     layers = layers + [('to_z', EncoderToZ())]
     return layers
+
 
 if __name__ == '__main__':
     import torch.utils.model_zoo as model_zoo
@@ -213,4 +228,3 @@ if __name__ == '__main__':
     print('Loading resnet152')
     model = CustomResNet(152)
     model.load_state_dict(model_zoo.load_url(resnet.model_urls['resnet152']))
-

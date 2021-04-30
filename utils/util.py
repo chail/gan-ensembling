@@ -1,10 +1,12 @@
 import torch
 import urllib
 
+
 def remove_prefix(s, prefix):
     if s.startswith(prefix):
         s = s[len(prefix):]
     return s
+
 
 def set_requires_grad(requires_grad, *models):
     for model in models:
@@ -16,9 +18,11 @@ def set_requires_grad(requires_grad, *models):
         else:
             assert False, 'unknown type %r' % type(model)
 
+
 def is_url(url):
     scheme = urllib.parse.urlparse(url).scheme
     return scheme in ('http', 'https')
+
 
 def make_checkpoint(net, optimizer, epoch, valacc, outf, name):
     sd = {
@@ -29,8 +33,10 @@ def make_checkpoint(net, optimizer, epoch, valacc, outf, name):
     }
     torch.save(sd, '%s/net_%s.pth' % (outf, name))
 
+
 class AverageMeter(object):
     """Computes and stores the average and current value"""
+
     def __init__(self):
         self.reset()
 

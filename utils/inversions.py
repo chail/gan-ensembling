@@ -8,6 +8,7 @@ from . import LBFGS
 masked_l1_loss = losses.Masked_L1_Loss()
 masked_lpips_loss = losses.Masked_LPIPS_Loss('alex')
 
+
 def invert_lbfgs(net, target, mask=None,
                  lambda_f=0.25, lambda_l=0.5,
                  num_steps=3000, initial_latent=None):
@@ -21,8 +22,8 @@ def invert_lbfgs(net, target, mask=None,
 
     if mask is None:
         # mask is just all ones (no mask)
-        mask = torch.ones_like(target)[:, :1, : :]
-    assert(torch.min(mask >= 0)) # sanity check, mask in range [0, 1]
+        mask = torch.ones_like(target)[:, :1, ::]
+    assert(torch.min(mask >= 0))  # sanity check, mask in range [0, 1]
 
     torch.set_grad_enabled(False)
 
@@ -46,7 +47,7 @@ def invert_lbfgs(net, target, mask=None,
     def compute_all_loss():
         current_x = net.decode(current_z)
         all_loss = {}
-        all_loss['x'] = ((1-lambda_l) * masked_l1_loss(current_x, target_x, mask) + lambda_l * masked_lpips_loss(current_x, target_x, mask))
+        all_loss['x'] = ((1 - lambda_l) * masked_l1_loss(current_x, target_x, mask) + lambda_l * masked_lpips_loss(current_x, target_x, mask))
         if not lambda_f:
             all_loss['z'] == 0.0
         else:
@@ -72,7 +73,7 @@ def invert_lbfgs(net, target, mask=None,
                 loss.backward()
             else:
                 options = {'closure': closure, 'current_loss': loss,
-                        'max_ls': 10}
+                           'max_ls': 10}
                 loss, _, lr, _, _, _, _, _ = optimizer.step(options)
             losses.append(loss.detach().cpu().numpy())
     # get final results

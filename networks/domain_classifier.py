@@ -1,5 +1,6 @@
 import torch
 
+
 def define_classifier(domain, classifier_name=None,
                       ckpt_path=None, device='cuda'):
     # check that name of pretrained model, or direct ckpt path is provided
@@ -34,7 +35,10 @@ def define_classifier(domain, classifier_name=None,
         net.load_state_dict(ckpt)
         return net.eval().to(device)
 
+
 softmax = torch.nn.Softmax(dim=-1)
+
+
 def postprocess(classifier_output):
     # multiclass classification N x labels
     if len(classifier_output.shape) == 2:
@@ -47,5 +51,3 @@ def postprocess(classifier_output):
     assert(torch.min(postprocessed_outputs) >= 0.)
     assert(torch.max(postprocessed_outputs) <= 1.)
     return postprocessed_outputs
-
-

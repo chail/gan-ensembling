@@ -1,12 +1,12 @@
 # GAN Ensembling
 [Project Page](https://chail.github.io/gan-ensembling/) | [Paper](http://arxiv.org/abs/2104.14551)  | [Bibtex](https://chail.github.io/gan-ensembling/bibtex.txt)
 
-<img src='img/teaser.gif' width=300> 
+<img src='img/teaser.gif' width=300>
 
 
 Ensembling with Deep Generative Views. \
 [Lucy Chai](http://people.csail.mit.edu/lrchai/), [Jun-Yan Zhu](https://www.cs.cmu.edu/~junyanz/), [Eli Shechtman](https://research.adobe.com/person/eli-shechtman/), [Phillip Isola](http://web.mit.edu/phillipi/), [Richard Zhang](https://richzhang.github.io/) \
-*CVPR 2021* 
+*CVPR 2021*
 
 ## Prerequisites
 - Linux
@@ -20,7 +20,7 @@ Ensembling with Deep Generative Views. \
 4. [Notebooks](#notebooks) - jupyter notebooks for visualization<br>
 5. [Pipeline](#pipeline) - details on full pipeline<br>
 
-<img src='img/teaser.jpeg' width=300> 
+<img src='img/teaser.jpeg' width=300>
 
 
 
@@ -28,7 +28,7 @@ Ensembling with Deep Generative Views. \
 
 <a name="colab"/>
 
-This [Colab Notebook](https://colab.research.google.com/drive/1-qZBjn07KlWv27kKQGaKOXMBgP-Fb0Ws?usp=sharing) demonstrates the basic latent code perturbation and classification procedure in a simplified setting on the aligned cat dataset. 
+This [Colab Notebook](https://colab.research.google.com/drive/1-qZBjn07KlWv27kKQGaKOXMBgP-Fb0Ws?usp=sharing) demonstrates the basic latent code perturbation and classification procedure in a simplified setting on the aligned cat dataset.
 
 <a name="setup"/>
 
@@ -41,16 +41,16 @@ cd gan-ensembling
 ```
 
 - Install dependencies:
-	- we provide a Conda `environment.yml` file listing the dependencies. You can create the Conda environment using: 
+	- we provide a Conda `environment.yml` file listing the dependencies. You can create the Conda environment using:
 	```bash
 	conda env create -f environment.yml
 	```
 
 
 - Download resources:
-	- We provide a script for downloading associated resources. 
-	- It will download precomputed latents (cat: 291M, car: 121M, celebahq: 1.8G, cifar10: 883M), a subset of trained models (592M), precomputed results (1.3G), and associated libraries. 
-	- Fetch the resources by running 
+	- We provide a script for downloading associated resources.
+	- It will download precomputed latent codes (cat: 291M, car: 121M, celebahq: 1.8G, cifar10: 883M), a subset of trained models (592M), precomputed results (1.3G), and associated libraries.
+	- Fetch the resources by running
 
 	```bash
 	bash resources/download_resources.sh
@@ -63,7 +63,7 @@ cd gan-ensembling
 - Download external datasets:
 	- CelebA-HQ: Follow the instructions [here](https://github.com/tkarras/progressive_growing_of_gans) to create the CelebA-HQ dataset and place CelebA-HQ images in directory `dataset/celebahq/images/images`.
 	- Cars: This dataset is a subset of [Cars196](https://ai.stanford.edu/~jkrause/cars/car_dataset.html). Download the images from [here](http://imagenet.stanford.edu/internal/car196/cars_train.tgz) and the devkit from [here](https://ai.stanford.edu/~jkrause/cars/car_devkit.tgz). (We are subsetting their training images into train/test/val partitions). Place the images in directory `dataset/cars/images/images` and the devkit in `dataset/cars/devkit`.
-	- The processed and aligned cat images are downloaded with the above resources, and cifar10 dataset downloaded via the PyTorch wrapper.
+	- The processed and aligned cat images are downloaded with the above resources, and cifar10 dataset is downloaded via the PyTorch wrapper.
 
 An example of the directory organization is below:
 ```bash
@@ -78,8 +78,8 @@ dataset/celebahq/
 dataset/cars/
 	devkit/
 		cars_meta.mat
-		cars_test_annos.mat 
-		cars_train_annos.mat 
+		cars_test_annos.mat
+		cars_train_annos.mat
 		...
 	images/images/
 		00001.jpg
@@ -123,7 +123,7 @@ perturbed_im = generator.perturb_stylemix(latent, 'fine', mix_latent, n=4)
 <a name="notebooks"/>
 
 ## Notebooks
-*Important*: First, setup symlinks required for notebooks: `bash notebooks/setup_notebooks.sh`, and add the conda environment to jupyter kernels: `python -m ipykernel install --user --name gan-ensembling`. 
+*Important*: First, set up symlinks required for notebooks: `bash notebooks/setup_notebooks.sh`, and add the conda environment to jupyter kernels: `python -m ipykernel install --user --name gan-ensembling`.
 
 The provided notebooks are:
 1. `notebooks/demo.ipynb`: basic usage example
@@ -134,10 +134,10 @@ The provided notebooks are:
 
 ## Full Pipeline
 
-The full pipeline contains of three main parts: 
+The full pipeline contains three main parts:
 1. optimize latent codes
 2. train classifiers
-3. evaluate ensemble of GAN-generated images.
+3. evaluate the ensemble of GAN-generated images.
 
 Examples for each step of the pipeline are contained in the following scripts:
 

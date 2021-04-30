@@ -1,5 +1,5 @@
-### perturbation ranges and layers for stylegan2, stylegan_idvert,
-### and stylegan2_ada models, for each dataset domain
+# perturbation ranges and layers for stylegan2, stylegan_idvert,
+# and stylegan2_ada models, for each dataset domain
 
 stylegan2_settings = {
     'ffhq': {

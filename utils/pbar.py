@@ -4,7 +4,9 @@ Utilities for showing progress bars, controlling default verbosity, etc.
 
 # If the tqdm package is not available, then do not show progress bars;
 # just connect print_progress to print.
-import sys, types, builtins
+import sys
+import types
+import builtins
 try:
     from tqdm import tqdm, tqdm_notebook
 except:
@@ -13,6 +15,7 @@ except:
 default_verbosity = True
 next_description = None
 python_print = builtins.print
+
 
 def post(**kwargs):
     '''
@@ -24,6 +27,7 @@ def post(**kwargs):
     if innermost:
         innermost.set_postfix(**kwargs)
 
+
 def desc(desc):
     '''
     When within a progress loop, pbar.desc(str) changes the
@@ -32,6 +36,7 @@ def desc(desc):
     innermost = innermost_tqdm()
     if innermost:
         innermost.set_description(str(desc))
+
 
 def descnext(desc):
     '''
@@ -42,6 +47,7 @@ def descnext(desc):
     if not default_verbosity or tqdm is None:
         return
     next_description = desc
+
 
 def print(*args):
     '''
@@ -56,12 +62,14 @@ def print(*args):
         else:
             tqdm.write(msg)
 
+
 def tqdm_terminal(it, *args, **kwargs):
     '''
     Some settings for tqdm that make it run better in resizable terminals.
     '''
     return tqdm(it, *args, dynamic_ncols=True, ascii=True,
-            leave=(not innermost_tqdm()), **kwargs)
+                leave=(not innermost_tqdm()), **kwargs)
+
 
 def in_notebook():
     '''
@@ -79,6 +87,7 @@ def in_notebook():
     except NameError:
         return False      # Probably standard Python interpreter
 
+
 def innermost_tqdm():
     '''
     Returns the innermost active tqdm progress loop on the stack.
@@ -88,11 +97,12 @@ def innermost_tqdm():
     else:
         return None
 
+
 def __call__(x, *args, **kwargs):
     '''
     Invokes a progress function that can wrap iterators to print
     progress messages, if verbose is True.
-   
+
     If verbose is False or tqdm is unavailable, then a quiet
     non-printing identity function is used.
 
@@ -112,12 +122,14 @@ def __call__(x, *args, **kwargs):
         next_description = None
     return fn(x, *args, **kwargs)
 
+
 class VerboseContextManager():
     def __init__(self, v, entered=False):
         self.v, self.entered, self.saved = v, False, []
         if entered:
             self.__enter__()
             self.entered = True
+
     def __enter__(self):
         global default_verbosity
         if self.entered:
@@ -126,9 +138,11 @@ class VerboseContextManager():
             self.saved.append(default_verbosity)
             default_verbosity = self.v
         return self
+
     def __exit__(self, exc_type, exc_value, exc_traceback):
         global default_verbosity
         default_verbosity = self.saved.pop()
+
     def __call__(self, v=True):
         '''
         Calling the context manager makes a new context that is
@@ -140,6 +154,7 @@ class VerboseContextManager():
         default_verbosity = new_v
         return cm
 
+
 # Use as either "with pbar.verbose:" or "pbar.verbose(False)", or also
 # "with pbar.verbose(False):"
 verbose = VerboseContextManager(True)
@@ -148,13 +163,15 @@ verbose = VerboseContextManager(True)
 # "with pbar.quiet(True):"
 quiet = VerboseContextManager(False)
 
+
 class CallableModule(types.ModuleType):
     def __init__(self):
         # or super().__init__(__name__) for Python 3
         types.ModuleType.__init__(self, __name__)
         self.__dict__.update(sys.modules[__name__].__dict__)
+
     def __call__(self, x, *args, **kwargs):
         return __call__(x, *args, **kwargs)
 
-sys.modules[__name__] = CallableModule()
 
+sys.modules[__name__] = CallableModule()

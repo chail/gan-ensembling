@@ -1,5 +1,6 @@
 import torch
 
+
 def accuracy(output, target, topk=(1,), return_preds=False):
     """Computes the accuracy over the k top predictions for the specified values of k"""
     # modified from : https://github.com/pytorch/examples/blob/ad775ace1b9db09146cdd0724ce9195f7f863fff/imagenet/main.py

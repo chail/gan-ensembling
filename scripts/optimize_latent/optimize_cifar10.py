@@ -7,9 +7,10 @@ import data
 from networks import domain_generator, domain_classifier
 from utils import util
 
+
 def optimize(opt):
     dataset_name = 'cifar10'
-    generator_name = 'stylegan2-cc' # class conditional stylegan
+    generator_name = 'stylegan2-cc'  # class conditional stylegan
     transform = data.get_transform(dataset_name, 'imval')
 
     dset = data.get_dataset(dataset_name, opt.partition,
@@ -29,7 +30,7 @@ def optimize(opt):
     resnet = domain_classifier.define_classifier(dataset_name,
                                                  'imageclassifier')
 
-    ### iterate ### 
+    ### iterate ###
     for i in range(start_idx, end_idx):
         img, label = dset[i]
 
@@ -49,6 +50,7 @@ def optimize(opt):
         ckpt, loss = generator.optimize(img, pred_label)
         current_z = ckpt['current_z'].detach().cpu().numpy()
         np.save(filename, current_z)
+
 
 if __name__ == '__main__':
 

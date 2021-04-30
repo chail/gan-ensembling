@@ -11,6 +11,8 @@ from .PT_STYLEGAN2.model import Generator
 from . import util
 
 # We need this little hack to allow calling it as Generator(x)
+
+
 class encapsulated_generator(nn.Module):
     def __init__(self, model, input_is_w=False):
         super().__init__()
@@ -19,8 +21,9 @@ class encapsulated_generator(nn.Module):
         self.input_is_w = input_is_w
 
     def forward(self, x):
-        #TODO: Check if x is array or not.
-        return self.gen([x,], input_is_latent=self.input_is_w)[0]
+        # TODO: Check if x is array or not.
+        return self.gen([x, ], input_is_latent=self.input_is_w)[0]
+
 
 def get_generator(filename, cfg=None, size=128, channel_multiplier=2):
     """
@@ -43,6 +46,7 @@ def get_generator(filename, cfg=None, size=128, channel_multiplier=2):
     G = encapsulated_generator(model, input_is_w=input_is_w)
 
     return G
+
 
 def freeze_layers(generator, n_layers, freeze_front_layers=False):
     """
@@ -73,7 +77,6 @@ def freeze_layers(generator, n_layers, freeze_front_layers=False):
                 param.requires_grad = False
 
 
-
 def train_layers(generator, train_layer_list):
     """
     Train each layer given in layer list.
@@ -84,4 +87,3 @@ def train_layers(generator, train_layer_list):
     for layer in train_layer_list:
         for param in generator.gen.convs[layer].parameters():
             param.requires_grad = True
-

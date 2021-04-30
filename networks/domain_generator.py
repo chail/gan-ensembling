@@ -3,6 +3,7 @@ import numpy as np
 import torch
 import os
 
+
 def define_generator(nettype, domain, ckpt_path=None,
                      load_encoder=False, device='cuda'):
     if 'celebahq' in domain:
@@ -22,6 +23,7 @@ def define_generator(nettype, domain, ckpt_path=None,
         return StyleganIDInvertNet(domain)
     else:
         raise NotImplementedError
+
 
 class BaseNet(ABC):
 
@@ -89,8 +91,8 @@ class Stylegan2Net(BaseNet):
         depth = self.setting['nz']
         rng = np.random.RandomState(seed)
         result = torch.from_numpy(
-                rng.standard_normal(n * depth)
-                .reshape(n, depth)).float()
+            rng.standard_normal(n * depth)
+            .reshape(n, depth)).float()
         if device is None:
             result = result.to(self.device)
         else:
@@ -114,7 +116,7 @@ class Stylegan2Net(BaseNet):
         if mask is None:
             mask = torch.ones_like(image)[:, :1, :, :]
         # stylegan mask is [0, 1]
-        if torch.min(mask) == -0.5 :
+        if torch.min(mask) == -0.5:
             mask += 0.5
         assert(torch.min(mask >= 0))
 
@@ -128,7 +130,7 @@ class Stylegan2Net(BaseNet):
         return self.generator(latent)
 
     def optimize(self, image, mask):
-        assert(self.encoder) # check encoder is loaded
+        assert(self.encoder)  # check encoder is loaded
         from utils import inversions
         checkpoint_dict, losses = inversions.invert_lbfgs(
             self, image, mask, num_steps=500)
@@ -145,7 +147,7 @@ class Stylegan2Net(BaseNet):
         elif layer == 'coarse':
             coarse_layer = self.perturb_settings['coarse_layer']
             w_mix = torch.cat([noisy[:, :coarse_layer, :],
-                              w_inv_batch[:, coarse_layer:, :]], dim=1)
+                               w_inv_batch[:, coarse_layer:, :]], dim=1)
         assert(w_mix.shape[1] == latent.shape[1])
         jittered_im = self.generator(w_mix)
         return jittered_im
@@ -182,7 +184,7 @@ class Stylegan2Net(BaseNet):
         elif layer == 'coarse':
             coarse_layer = self.perturb_settings['coarse_layer']
             w_mix = torch.cat([noisy[:, :coarse_layer, :],
-                              w_inv_batch[:, coarse_layer:, :]], dim=1)
+                               w_inv_batch[:, coarse_layer:, :]], dim=1)
         assert(w_mix.shape[1] == latent.shape[1])
         jittered_im = self.generator(w_mix)
         return jittered_im
@@ -190,9 +192,9 @@ class Stylegan2Net(BaseNet):
     def perturb_stylemix(self, latent, layer, mix_latent, n=8, is_eval=True):
         # replicate  batch dimension if necessary
         w_inv_batch = latent.repeat(n, 1, 1) if is_eval else latent
-        assert(mix_latent.shape[0] == n) # sanity check batch dimension
+        assert(mix_latent.shape[0] == n)  # sanity check batch dimension
         mix_latent = mix_latent[:, None, :].repeat(
-            1, latent.shape[1], 1) # replicate style dimension
+            1, latent.shape[1], 1)  # replicate style dimension
         if layer == 'fine':
             fine_layer = self.perturb_settings['fine_layer']
             w_mix = torch.cat([w_inv_batch[:, :fine_layer, :],
@@ -200,7 +202,7 @@ class Stylegan2Net(BaseNet):
         elif layer == 'coarse':
             coarse_layer = self.perturb_settings['coarse_layer']
             w_mix = torch.cat([mix_latent[:, :coarse_layer, :],
-                              w_inv_batch[:, coarse_layer:, :]], dim=1)
+                               w_inv_batch[:, coarse_layer:, :]], dim=1)
         assert(w_mix.shape[1] == latent.shape[1])
         jittered_im = self.generator(w_mix)
         return jittered_im
@@ -211,11 +213,11 @@ class StyleganIDInvertNet(BaseNet):
                  load_encoder=False, device='cuda'):
         from . import perturb_settings
         from resources.idinvert_pytorch.utils.inverter import StyleGANInverter
-        # note: need to symlink resources/idinvert_pytorch/models to 
+        # note: need to symlink resources/idinvert_pytorch/models to
         # base directory and download the pretrained model
         assert(domain == 'ffhq')
         if (not os.path.isfile('models/pretrain/styleganinv_ffhq256_encoder.pth')
-            or not os.path.isfile('models/pretrain/styleganinv_ffhq256_generator.pth')):
+                or not os.path.isfile('models/pretrain/styleganinv_ffhq256_generator.pth')):
             print("Missing pretrained models in directory models/pretrain")
             raise FileNotFoundError
         inverter = StyleGANInverter('styleganinv_ffhq256')
@@ -264,8 +266,8 @@ class StyleganIDInvertNet(BaseNet):
     def perturb_stylemix(self, latent, layer, mix_latent, n=8, is_eval=True):
         # replicate  batch dimension if necessary
         w_inv_batch = latent.repeat(n, 1, 1) if is_eval else latent
-        assert(mix_latent.shape[0] == n) # sanity check batch dimension
-        assert(mix_latent.shape[1] == latent.shape[1]) # sanity check style dimension
+        assert(mix_latent.shape[0] == n)  # sanity check batch dimension
+        assert(mix_latent.shape[1] == latent.shape[1])  # sanity check style dimension
         if layer == 'fine':
             fine_layer = self.perturb_settings['fine_layer']
             w_mix = torch.cat([w_inv_batch[:, :fine_layer, :],
@@ -273,7 +275,7 @@ class StyleganIDInvertNet(BaseNet):
         elif layer == 'coarse':
             coarse_layer = self.perturb_settings['coarse_layer']
             w_mix = torch.cat([mix_latent[:, :coarse_layer, :],
-                              w_inv_batch[:, coarse_layer:, :]], dim=1)
+                               w_inv_batch[:, coarse_layer:, :]], dim=1)
         assert(w_mix.shape[1] == latent.shape[1])
         jittered_im = self.generator(w_mix)
         return jittered_im
@@ -295,14 +297,14 @@ class Stylegan2CCNet(BaseNet):
         }[domain]
         device = torch.device(device)
         with dnnlib.util.open_url(network_pkl) as f:
-            G = legacy.load_network_pkl(f)['G_ema'].to(device) # type: ignore
+            G = legacy.load_network_pkl(f)['G_ema'].to(device)  # type: ignore
         G = G.eval()
         self.generator = G
-        self.encoder = None # no pretrained encoder for cifar10 model
+        self.encoder = None  # no pretrained encoder for cifar10 model
         self.device = device
         self.perturb_settings = perturb_settings.stylegan2_cc_settings[domain]
         self.pca_stats = None
-        self.cc_mean_w = None # mean w latent per class
+        self.cc_mean_w = None  # mean w latent per class
 
     def sample_zs(self, n=100, seed=1, device=None):
         if device is None:
@@ -352,8 +354,8 @@ class Stylegan2CCNet(BaseNet):
     def perturb_stylemix(self, latent, layer, mix_latent, n=8, is_eval=True):
         # replicate  batch dimension if necessary
         w_inv_batch = latent.repeat(n, 1, 1) if is_eval else latent
-        assert(mix_latent.shape[0] == n) # sanity check batch dimension
-        assert(mix_latent.shape[1] == latent.shape[1]) # sanity check style dimension
+        assert(mix_latent.shape[0] == n)  # sanity check batch dimension
+        assert(mix_latent.shape[1] == latent.shape[1])  # sanity check style dimension
         assert(layer == 'fine')
         if layer == 'fine':
             fine_layer = self.perturb_settings['fine_layer']

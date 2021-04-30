@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import lpips
 
+
 class LPIPS_Loss(nn.Module):
     def __init__(self, model='net-lin', net='vgg', use_gpu=True, spatial=False):
         super(LPIPS_Loss, self).__init__()
@@ -10,6 +11,7 @@ class LPIPS_Loss(nn.Module):
     def forward(self, pred, ref):
         dist = self.model.forward(pred, ref)
         return dist
+
 
 def check_loss_input(im0, im1, w):
     """ im0 is out and im1 is target and w is mask"""
@@ -26,6 +28,8 @@ def check_loss_input(im0, im1, w):
 
 # masked lpips
 # adapted from https://github.com/minyoungg/pix2latent/blob/master/pix2latent/loss_functions.py
+
+
 class Masked_LPIPS_Loss(nn.Module):
     def __init__(self, net='vgg', use_gpu=True, precision='float'):
         """ LPIPS loss with spatial weighting """
@@ -66,13 +70,14 @@ class Masked_L1_Loss(nn.Module):
         check_loss_input(pred, ref, w)
         loss = self.loss(pred, ref)
         assert(pred.shape[1] == ref.shape[1])
-        channels = pred.shape[1] 
+        channels = pred.shape[1]
         if w is not None:
-            w = w.repeat(1, channels, 1, 1) # repeat on channel wise dim
+            w = w.repeat(1, channels, 1, 1)  # repeat on channel wise dim
             n = torch.sum(loss * w, [1, 2, 3])
             d = torch.sum(w, [1, 2, 3])
             loss = n / d
         return loss
+
 
 class Masked_MSE_Loss(nn.Module):
     def __init__(self):
@@ -84,9 +89,9 @@ class Masked_MSE_Loss(nn.Module):
         check_loss_input(pred, ref, w)
         loss = self.loss(pred, ref)
         assert(pred.shape[1] == ref.shape[1])
-        channels = pred.shape[1] 
+        channels = pred.shape[1]
         if w is not None:
-            w = w.repeat(1, channels, 1, 1) # repeat on channel wise dim
+            w = w.repeat(1, channels, 1, 1)  # repeat on channel wise dim
             n = torch.sum(loss * w, [1, 2, 3])
             d = torch.sum(w, [1, 2, 3])
             loss = n / d
