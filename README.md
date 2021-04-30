@@ -1,5 +1,5 @@
 # GAN Ensembling
-[Project Page](https://chail.github.io/gan-ensembling/) | [Paper](./)  | [Bibtex](https://chail.github.io/gan-ensembling/bibtex.txt)
+[Project Page](https://chail.github.io/gan-ensembling/) | [Paper](http://arxiv.org/abs/2104.14551)  | [Bibtex](https://chail.github.io/gan-ensembling/bibtex.txt)
 
 <img src='img/teaser.gif' width=300> 
 
