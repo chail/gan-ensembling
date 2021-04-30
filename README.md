@@ -158,13 +158,13 @@ To add to the pipeline:
 ### Acknowledgements
 
 We thank the authors of these repositories:
-- [Gan Seeing](https://github.com/davidbau/ganseeing) for GAN and visualization utilities
-- [StyleGAN 2 Pytorch](https://github.com/rosinality/stylegan2-pytorch) for pytorch implementation of StyleGAN 2 and pretrained models
-- [Stylegan 2 ADA Pytorch](https://github.com/NVlabs/stylegan2-ada-pytorch) for the class-conditional StyleGAN 2 CIFAR10 generator
-- [StyleGAN In-domain inversion](https://github.com/genforce/idinvert_pytorch) for the in-domain stylegan generator and encoder
+- [Gan Seeing](https://github.com/davidbau/ganseeing) for GAN and visualization utilities 
+- [StyleGAN 2 Pytorch](https://github.com/rosinality/stylegan2-pytorch) for pytorch implementation of StyleGAN 2 and pretrained models ([license](https://github.com/rosinality/stylegan2-pytorch/blob/master/LICENSE))
+- [Stylegan 2 ADA Pytorch](https://github.com/NVlabs/stylegan2-ada-pytorch) for the class-conditional StyleGAN 2 CIFAR10 generator ([license](https://github.com/NVlabs/stylegan2-ada-pytorch/blob/main/LICENSE.txt))
+- [StyleGAN In-domain inversion](https://github.com/genforce/idinvert_pytorch) for the in-domain stylegan generator and encoder ([license](https://github.com/genforce/idinvert_pytorch/blob/master/LICENSE.txt))
 - [Pytorch CIFAR](https://github.com/kuangliu/pytorch-cifar) for CIFAR10 classification ([license](https://github.com/kuangliu/pytorch-cifar/blob/master/LICENSE))
-- [Latent Composition](https://github.com/chail/latent-composition) for some code and remaining encoders
-- Cat dataset images are from the [Oxford-IIIT Pet Dataset](https://www.robots.ox.ac.uk/~vgg/data/pets/), aligned using the [Frederic](https://github.com/zylamarek/frederic) landmark detector.
+- [Latent Composition](https://github.com/chail/latent-composition) for some code and remaining encoders ([license](https://github.com/chail/latent-composition/blob/main/LICENSE))
+- Cat dataset images are from the [Oxford-IIIT Pet Dataset](https://www.robots.ox.ac.uk/~vgg/data/pets/) ([license](https://creativecommons.org/licenses/by-sa/4.0/)), aligned using the [Frederic](https://github.com/zylamarek/frederic) landmark detector ([license](https://github.com/zylamarek/frederic/blob/master/LICENSE)).
 
 ### Citation
 If you use this code for your research, please cite our paper:
