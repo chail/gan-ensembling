@@ -5,21 +5,6 @@ import glob
 
 softmax = torch.nn.Softmax(dim=1)
 
-# def get_attribute_for_dataset(attribute):
-#     # strip off modifiers for training variations
-#     if attribute.endswith('_W'): # trained on latents
-#         attribute = attribute[:-2]
-#     if attribute.endswith('_WS'): # trained with style mixing
-#         attribute = attribute[:-3]
-#     if attribute.endswith('_WR'): # train with isotropic perturb
-#         attribute = attribute[:-3]
-#     if attribute.endswith('_WM'): # train with PCA perturb
-#         attribute = attribute[:-3]
-#     if attribute.endswith('_WSCC'): # train with style mixing + crops
-#         attribute = attribute[:-5]
-#     print(f"Using {attribute} as the dataset attribute")
-#     return attribute
-
 def downsample(images, size=256):
     # Downsample to 256x256. The attribute classifiers were built for 256x256.
     # follows https://github.com/NVlabs/stylegan/blob/master/metrics/linear_separability.py#L127
@@ -33,10 +18,12 @@ def downsample(images, size=256):
         assert(images.shape[-1] == 256)
         return images
 
+
 def get_logit(net, im):
     im_256 = downsample(im)
     logit = net(im_256)
     return logit
+
 
 def get_softmaxed(net, im):
     logit = get_logit(net, im)
@@ -44,10 +31,11 @@ def get_softmaxed(net, im):
     # logit is (N,) softmaxed is (N,)
     return logit[:, 0], softmaxed
 
+
 def load_attribute_classifier(attribute, ckpt_path=None):
     if ckpt_path is None:
         base_path = 'results/pretrained_classifiers/celebahq'
-        attribute_pkl = os.path.join(base_path,attribute,'net_best.pth')
+        attribute_pkl = os.path.join(base_path, attribute, 'net_best.pth')
         ckpt = torch.load(attribute_pkl)
     else:
         ckpt = torch.load(ckpt_path)

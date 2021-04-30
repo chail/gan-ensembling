@@ -5,12 +5,13 @@ from collections import OrderedDict
 
 
 def lerp_clip(a, b, t):
-    return a + (b-a) * torch.clamp(t, 0.0, 1.0)
+    return a + (b - a) * torch.clamp(t, 0.0, 1.0)
+
 
 class WScaleLayer(nn.Module):
     def __init__(self, size, fan_in, gain=np.sqrt(2), bias=True):
         super(WScaleLayer, self).__init__()
-        self.scale = gain / np.sqrt(fan_in) # No longer a parameter
+        self.scale = gain / np.sqrt(fan_in)  # No longer a parameter
         if bias:
             self.b = nn.Parameter(torch.randn(size))
         else:
@@ -53,6 +54,7 @@ class WScaleLinear(nn.Module):
         self.linear = nn.Linear(in_channels, out_channels, bias=False)
         self.wscale = WScaleLayer(out_channels, in_channels, gain=gain,
                                   bias=bias)
+
     def forward(self, x):
         return self.wscale(self.linear(x))
 
@@ -62,11 +64,12 @@ class FromRGB(nn.Module):
                  act=nn.LeakyReLU(0.2), bias=True):
         super().__init__()
         self.conv = WScaleConv2d(in_channels, out_channels, kernel_size,
-                               padding=0, bias=bias)
+                                 padding=0, bias=bias)
         self.act = act
 
     def forward(self, x):
         return self.act(self.conv(x))
+
 
 class Downscale2d(nn.Module):
     def __init__(self, factor=2):
@@ -83,13 +86,13 @@ class DownscaleConvBlock(nn.Module):
         super().__init__()
         self.downscale = Downscale2d()
         self.conv0 = WScaleConv2d(in_channels, conv0_channels,
-                               kernel_size=kernel_size,
-                               padding=padding,
-                               bias=bias)
+                                  kernel_size=kernel_size,
+                                  padding=padding,
+                                  bias=bias)
         self.conv1 = WScaleConv2d(conv0_channels, conv1_channels,
-                               kernel_size=kernel_size,
-                               padding=padding,
-                               bias=bias)
+                                  kernel_size=kernel_size,
+                                  padding=padding,
+                                  bias=bias)
         self.act = act
 
     def forward(self, x):
@@ -113,7 +116,7 @@ class MinibatchStdLayer(nn.Module):
         y = x.view([group_size, -1, s[1], s[2], s[3]])
         y = y.float()
         y = y - torch.mean(y, dim=0, keepdim=True)
-        y = torch.mean(y*y, dim=0)
+        y = torch.mean(y * y, dim=0)
         y = torch.sqrt(y + 1e-8)
         y = torch.mean(torch.mean(torch.mean(y, axis=3, keepdim=True),
                                   axis=2, keepdim=True), axis=1, keepdim=True)
@@ -126,11 +129,11 @@ class PredictionBlock(nn.Module):
     def __init__(self, in_channels, dense0_feat, dense1_feat, out_feat,
                  pool_size=2, act=nn.LeakyReLU(0.2), use_mbstd=True):
         super().__init__()
-        self.use_mbstd = use_mbstd # attribute classifiers don't have this
+        self.use_mbstd = use_mbstd  # attribute classifiers don't have this
         if self.use_mbstd:
             self.mbstd_layer = MinibatchStdLayer()
         # MinibatchStdLayer adds an additional feature dimension
-        self.conv = WScaleConv2d(in_channels+int(self.use_mbstd),
+        self.conv = WScaleConv2d(in_channels + int(self.use_mbstd),
                                  dense0_feat, kernel_size=3, padding=1)
         self.dense0 = WScaleLinear(dense0_feat * pool_size * pool_size, dense1_feat)
         self.dense1 = WScaleLinear(dense1_feat, out_feat, gain=1)
@@ -150,21 +153,21 @@ class D(nn.Module):
 
     def __init__(
         self,
-        num_channels        = 3,            # Number of input color channels. Overridden based on dataset.
-        resolution          = 128,           # Input resolution. Overridden based on dataset.
-        label_size          = 0,            # Dimensionality of the labels, 0 if no labels. Overridden based on dataset.
-        fmap_base           = 8192,         # Overall multiplier for the number of feature maps.
-        fmap_decay          = 1.0,          # log2 feature map reduction when doubling the resolution.
-        fmap_max            = 512,          # Maximum number of feature maps in any layer.
-        mbstd_group_size    = 4,            # Group size for the minibatch standard deviation layer, 0 = disable.
-        #use_wscale          = True,         # Enable equalized learning rate?
-        #dtype               = 'float32',    # Data type to use for activations and outputs.
-        #fused_scale         = True,         # True = use fused conv2d + downscale2d, False = separate downscale2d layers.
-        #structure           = None,         # 'linear' = human-readable, 'recursive' = efficient, None = select automatically
-        #is_template_graph   = False,        # True = template graph constructed by the Network class, False = actual evaluation.
-        fixed_size          = False,        # True = load fromrgb_lod0 weights only
-        use_mbstd           = True,         # False = no mbstd layer in PredictionBlock
-        **kwargs):                          # Ignore unrecognized keyword args.
+        num_channels=3,            # Number of input color channels. Overridden based on dataset.
+        resolution=128,           # Input resolution. Overridden based on dataset.
+        label_size=0,            # Dimensionality of the labels, 0 if no labels. Overridden based on dataset.
+        fmap_base=8192,         # Overall multiplier for the number of feature maps.
+        fmap_decay=1.0,          # log2 feature map reduction when doubling the resolution.
+        fmap_max=512,          # Maximum number of feature maps in any layer.
+        mbstd_group_size=4,            # Group size for the minibatch standard deviation layer, 0 = disable.
+        # use_wscale          = True,         # Enable equalized learning rate?
+        # dtype               = 'float32',    # Data type to use for activations and outputs.
+        # fused_scale         = True,         # True = use fused conv2d + downscale2d, False = separate downscale2d layers.
+        # structure           = None,         # 'linear' = human-readable, 'recursive' = efficient, None = select automatically
+        # is_template_graph   = False,        # True = template graph constructed by the Network class, False = actual evaluation.
+        fixed_size=False,        # True = load fromrgb_lod0 weights only
+        use_mbstd=True,         # False = no mbstd layer in PredictionBlock
+            **kwargs):                          # Ignore unrecognized keyword args.
         super().__init__()
 
         self.resolution_log2 = resolution_log2 = int(np.log2(resolution))
@@ -175,25 +178,24 @@ class D(nn.Module):
 
         res = resolution_log2
 
-        setattr(self, 'fromrgb_lod0', FromRGB(num_channels, nf(res-1), 1))
+        setattr(self, 'fromrgb_lod0', FromRGB(num_channels, nf(res - 1), 1))
 
         for i, res in enumerate(range(resolution_log2, 2, -1), 1):
             lod = resolution_log2 - res
-            block = DownscaleConvBlock(nf(res-1), nf(res-1), nf(res-2),
+            block = DownscaleConvBlock(nf(res - 1), nf(res - 1), nf(res - 2),
                                        kernel_size=3, padding=1)
             setattr(self, '%dx%d' % (2**res, 2**res), block)
-            fromrgb = FromRGB(3, nf(res-2), 1)
+            fromrgb = FromRGB(3, nf(res - 2), 1)
             if not fixed_size:
                 setattr(self, 'fromrgb_lod%d' % i, fromrgb)
 
         res = 2
         pool_size = 2**res
-        block = PredictionBlock(nf(res+1-2), nf(res-1), nf(res-2), 1,
+        block = PredictionBlock(nf(res + 1 - 2), nf(res - 1), nf(res - 2), 1,
                                 pool_size, use_mbstd=use_mbstd)
         setattr(self, '%dx%d' % (pool_size, pool_size), block)
         self.downscale = Downscale2d()
         self.fixed_size = fixed_size
-
 
     def forward(self, img):
         x = self.fromrgb_lod0(img)
@@ -251,7 +253,7 @@ def state_dict_from_tf_parameters(parameters):
         weight = torch_from_tf(var)
         # transpose the weights
         if pt_layer_name.endswith('wscale.b'):
-            pass # don't need to reshape bias
+            pass  # don't need to reshape bias
         elif pt_layer_name.endswith('conv.weight'):
             assert np.ndim(weight) == 4
             weight = weight.permute(3, 2, 0, 1)
@@ -263,11 +265,13 @@ def state_dict_from_tf_parameters(parameters):
 
     return result
 
+
 def max_res_from_state_dict(state_dict):
     for i in range(3, 12):
         if '%dx%d.conv0.conv.weight' % (2**i, 2**i) not in state_dict:
             break
-    return 2**(i-1)
+    return 2**(i - 1)
+
 
 def from_tf_parameters(parameters, fixed_size=False, use_mbstd=True):
     state_dict = state_dict_from_tf_parameters(parameters)
@@ -277,6 +281,7 @@ def from_tf_parameters(parameters, fixed_size=False, use_mbstd=True):
     d.load_state_dict(state_dict)
     return d
 
+
 def from_state_dict(state_dict, fixed_size=False, use_mbstd=True):
     res = max_res_from_state_dict(state_dict)
     d = D(num_channels=3, resolution=res, fixed_size=fixed_size,
@@ -284,6 +289,6 @@ def from_state_dict(state_dict, fixed_size=False, use_mbstd=True):
     d.load_state_dict(state_dict)
     return d
 
+
 def from_pth_file(filename, **kwargs):
     return from_state_dict(torch.load(filename), **kwargs)
-

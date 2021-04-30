@@ -3,6 +3,7 @@ import os
 import torch
 from torch.autograd import Function
 from torch.utils.cpp_extension import load
+from torch.nn import functional as F
 
 
 module_path = os.path.dirname(__file__)
@@ -184,4 +185,3 @@ def upfirdn2d_native(
     out = out.permute(0, 2, 3, 1)
 
     return out[:, ::down_y, ::down_x, :]
-
