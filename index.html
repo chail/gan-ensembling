@@ -200,6 +200,26 @@
         padding-left: 20px;
         padding-right: 20px;
       }
+			.video {
+					margin-left: auto;
+					margin-right: auto;
+					display: block
+			}
+      .center {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .boxshadow {
+        border: 1px solid;
+        padding: 10px;
+        box-shadow: 2px 2px 5px #888888;
+      }
+			.spacertr{
+				height:8px;
+			}
+			.spacertd{
+				height:40px;
+			}
 
     </style>
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -237,19 +257,24 @@
         </p>
 				<font size="+2">
 					<p style="text-align: center;">
-						<a href="" target="_blank">[Paper]</a>
+						<a href="https://arxiv.org/abs/2104.14551" target="_blank">[Paper]</a>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						<a href="https://github.com/chail/gan-ensembling" target="_blank">[Code]</a> 
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						<a href="https://colab.research.google.com/drive/1-qZBjn07KlWv27kKQGaKOXMBgP-Fb0Ws?usp=sharing" target="_blank">[Colab]</a>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						<a href="bibtex.txt" target="_blank">[Bibtex]</a>
-						<!--
-						<a href="TODO: youtube link?" target="_blank">[Video]</a>
-						-->
 					</p>
-					</font>
-        <p>
+				</font>
+				<font size="+1">
+					<p style="text-align: center;">
+						Skip to:  &nbsp;&nbsp;
+						<a href="#abstract">[Abstract]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="#summary">[Summary]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="#presentations">[Video & Poster]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+					</p>
+				</font>
+        <p id="abstract">
             <img class='teaser-img' src='img/teaser.jpeg'></img>
         </p>
 
@@ -259,7 +284,7 @@
 
         <br clear="all">
     </div>
-    <div class="content" id="samples">
+    <div class="content" id="summary">
 
         <h2 style="text-align:center;">Summary</h2>
 				
@@ -309,10 +334,58 @@
 
 				<br>
 				<hr>
-				<p style="text-align: center;"> There are some important limitations and challenges of the current approach. (1) Inverting images into GANs: the inversion must be accurate enough such that classification on the GAN-generated reconstruction is similar to that of the original image. Getting a good reconstruction can be computationally expensive, and some dataset images are harder to reconstruct, which limits us to relatively simple domains. (2) Classifier sensitivities: the classifier can be sensitive to imperfect GAN reconstructions, so classification accuracy tends to drop on the GAN reconstructions alone. We find that it helps to upweight the predictions on the original image relative to the GAN-generated variants in the ensemble, but ideally, the classifier should behave similarly on real images and GAN-generated reconstructions.
+				<p style="text-align: center;"> There are some important limitations and challenges of the current approach. <br><br>
+				(1) Inverting images into GANs: the inversion must be accurate enough such that classification on the GAN-generated reconstruction is similar to that of the original image. Getting a good reconstruction can be computationally expensive, and some dataset images are harder to reconstruct, which limits us to relatively simple domains. <br> <br>
+				(2) Classifier sensitivities: the classifier can be sensitive to imperfect GAN reconstructions, so classification accuracy tends to drop on the GAN reconstructions alone. We find that it helps to upweight the predictions on the original image relative to the GAN-generated variants in the ensemble, but ideally, the classifier should behave similarly on real images and GAN-generated reconstructions.
 				</p>
 
     </div>      
+		<div class="content" id="presentations">
+			<h2 style="text-align:center;">Presentations</h2>
+        <table style="text-align: center;" class="center">
+          <tr>
+            <td>
+              <div class="boxshadow">
+								<a href="http://latent-composition.csail.mit.edu/other_projects/gan_ensembling/presentations/gan_ensembling_video.mp4">
+								<font size="+2">
+                <p style="text-align: center;">Video</p>
+								</font>
+								<video class="video" width="450" controls>
+									<source src="http://latent-composition.csail.mit.edu/other_projects/gan_ensembling/presentations/gan_ensembling_video.mp4" type="video/mp4">
+							</video>
+              </a>
+              </div>
+            </td>
+						<td width="100"></td>
+            <td>
+              <div class="boxshadow">
+								<a href="http://latent-composition.csail.mit.edu/other_projects/gan_ensembling/presentations/gan_ensembling_poster.pdf">
+								<font size="+2">
+                <p style="text-align: center;">Poster</p>
+								</font>
+								<img style="width:443px" src="http://latent-composition.csail.mit.edu/other_projects/gan_ensembling/presentations/gan_ensembling_poster_thumbnail.jpg"></img>
+              </a>
+              </div>
+            </td>
+          </tr>
+		</table>
+		</div>
+		<!--
+		<div class="content" id="video">
+			<h2 style="text-align:center;">Video</h2>
+			<a href="http://latent-composition.csail.mit.edu/other_projects/gan_ensembling/presentations/gan_ensembling_video.mp4">
+			<video class="video" width="960" controls>
+					<source src="http://latent-composition.csail.mit.edu/other_projects/gan_ensembling/presentations/gan_ensembling_video.mp4" type="video/mp4">
+			</video>
+			</a>
+		</div>
+		<div class="content" id ="poster">
+			<h2 style="text-align:center;">Poster</h2>
+			<a href="http://latent-composition.csail.mit.edu/other_projects/gan_ensembling/presentations/gan_ensembling_poster.pdf">
+			<img style="width:960px" src="http://latent-composition.csail.mit.edu/other_projects/gan_ensembling/presentations/gan_ensembling_poster.jpg"></img>
+			</a>
+		</div>
+		-->
     <div class="content" id="references">
 
         <h2>Reference</h2>
